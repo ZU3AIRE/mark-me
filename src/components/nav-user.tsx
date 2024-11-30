@@ -29,6 +29,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { SignOutButton } from "@clerk/nextjs"
+import { text } from "stream/consumers"
 
 export function NavUser({
   user,
@@ -67,7 +69,7 @@ export function NavUser({
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuLabel className="p-0 font-normal">
+      {/*      <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
@@ -80,7 +82,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
+             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles />
                 Upgrade to Pro
@@ -100,11 +102,11 @@ export function NavUser({
                 <Bell />
                 Notifications
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            </DropdownMenuGroup> 
+            <DropdownMenuSeparator /> */}
             <DropdownMenuItem>
               <LogOut />
-              Log out
+              <SignOutButton></SignOutButton>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Development Setup
 
-## Getting Started
+First, clone the repo by using the following command:
 
-First, run the development server:
+```bash
+git clone https://github.com/ZU3AIRE/mark-me.git 
+```
+
+The stable branch is main:
+
+```bash
+git checkout main
+
+```
+second, run the following command to install the dependencies:
+
+```bash
+npm install
+```
+
+third, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Steps For PR Review
 
-## Learn More
+First, stiwtch to the specified branch according to the PR or clone the specified branch.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+git fetch origin
+git checkout <branch-name>
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+second, take the latest pull of the branch by running following command:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+``` bash
+git pull
+```
 
-## Deploy on Vercel
+third, run the following command to install the dependencies:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm install
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+fourth, run the development server:
+
+```bash
+npm run dev
+
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Things need to check 
+- There should be no irrelevant changes or irrelevant file in the PR.
+- The project should run succesfully in that branch.

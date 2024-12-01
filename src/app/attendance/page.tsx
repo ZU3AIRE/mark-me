@@ -214,14 +214,13 @@ export default function MarkAttendance() {
     })
 
     return (
-        <div className="p-4">
+        <div className="pe-4 ps-8">
             <div className="flex flex-row justify-between w-full  gap-4">
                 <div>
                     {/* <Button variant="outline">
                         <FileSpreadsheet /> Export
                     </Button> */}
-                    <h2 className="scroll-m-20 text-2xl font-extrabold tracking-tight lg:text-5xl">{dateString}</h2>
-                    <h2 className="scroll-m-20 my-4 text-2xl font-extrabold tracking-tight lg:text-5xl">2K{(new Date().getFullYear()) - 2000}</h2>
+                    <h2 className="scroll-m-20 text-2xl font-extrabold italic tracking-tight text-muted-foreground lg:text-md">{dateString}</h2>
                 </div>
                 <div className="flex flex-row gap-4">
                     <div className="flex flex-col gap-4 items-end">
@@ -390,6 +389,6 @@ function getTodaysDate() {
     const year = date.getFullYear();
 
     // Return the formatted date
-    return `${day}${getDaySuffix(day)} ${month}`;
+    return `${month} ${day}${getDaySuffix(day)} — ${year}`;
 }
 

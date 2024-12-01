@@ -6,7 +6,6 @@ import { Fragment } from "react";
 
 export const Breadcrumbs = () => {
     const paths: string = usePathname();
-    // const pathNames: string[] = paths.split('/').filter(paths => path);
     const pathNames: string[] = paths.split('/').filter(Boolean);
 
     return (

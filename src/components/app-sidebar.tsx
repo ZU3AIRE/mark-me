@@ -10,7 +10,6 @@ import * as React from "react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -20,12 +19,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
-export class User {
-  constructor(public name: string = 'UNKNOWN', public email: string  = 'UNKNOWN',
-    public avatar: string = 'UNKNOWN') {
-  }
-}
+import { Separator } from "./ui/separator"
 
 const data = {
   navMain: [
@@ -78,7 +72,7 @@ const data = {
 
 
 
-export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sidebar> & { user: User }) {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar> ) {
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -100,10 +94,9 @@ export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sideb
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={user} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarFooter>
     </Sidebar>
   )

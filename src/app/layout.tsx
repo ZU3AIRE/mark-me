@@ -12,7 +12,7 @@ import { Separator } from "@radix-ui/react-separator";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Breadcrumbs } from "./components/breadcrumbs";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

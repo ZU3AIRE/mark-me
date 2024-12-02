@@ -16,9 +16,8 @@ export const Breadcrumbs = () => {
                         <BreadcrumbPage>
                             Dashboard
                         </BreadcrumbPage> :
-
-                        <BreadcrumbLink href="/">
-                            Dashboard
+                        <BreadcrumbLink asChild>
+                            <Link href={"/"}>Dashboard</Link>
                         </BreadcrumbLink>
                     }
                 </BreadcrumbItem>

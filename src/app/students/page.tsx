@@ -1,8 +1,10 @@
 'use client'
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
@@ -40,6 +42,15 @@ const data: Student[] = [
         email: "carmella@hotmail.com",
     },
 ]
+
+var data1 = {
+    "id": "st",
+    "name": "Ahmed",
+    "phoneNumber": "(+234) 08012345678",
+    "email": "sadsad"
+}
+data.push(data1);
+
 
 export type Student = {
     id: string
@@ -169,7 +180,55 @@ export default function Students() {
         <div className="pe-4 ps-8">
             <div className="flex items-center justify-between py-4">
                 <h1 className="text-2xl font-semibold">Students</h1>
-                <Button variant="outline">Add student</Button>
+                {/* <Button variant="outline">Add student</Button> */}
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="outline">Add Student</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[600px]">
+                        <DialogHeader>
+                            <DialogTitle>Add Student</DialogTitle>
+                            <DialogDescription>
+                                Add student. Click save when you're done.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right">
+                                    Name
+                                </Label>
+                                <Input
+                                    id="name"
+                                    defaultValue="Mousa Naeem"
+                                    className="col-span-3"
+                                />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="email" className="text-right">
+                                    Email
+                                </Label>
+                                <Input
+                                    id="email"
+                                    defaultValue="mousa@gmail.com"
+                                    className="col-span-3"
+                                />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="phoneNumber" className="text-right">
+                                    Mobile Number
+                                </Label>
+                                <Input
+                                    id="number"
+                                    defaultValue="+92 3456789021"
+                                    className="col-span-3"
+                                />
+                            </div>
+                        </div>
+                        <DialogFooter>
+                            <Button type="submit">Save</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
             <div className="flex items-center py-4">
                 <Input

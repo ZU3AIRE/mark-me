@@ -4,9 +4,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
+import { Column, ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 import React from "react"
+import SmartSelect, { SmartSelectItem } from "@/components/re-useables/SmartSelect/page"
 
 const data: Course[] = [
     {
@@ -184,32 +185,29 @@ export default function Courses() {
                     }
                     className="max-w-sm"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="ml-auto">
+                    <SmartSelect
+                        items={
+                            table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column: Column<Course>) => {
+                                    return {
+                                        key: column.id,
+                                        label: column.id,
+                                        isChecked: column.getIsVisible()
+                                    }
+                                })}
+                        onCheckedChange={(item, value) =>
+                            table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide()).find(coulmn => coulmn.id == item.key)?.toggleVisibility(!!value)
+                        }
+                        title="Columns"
+                        variant={'outline'}
+                        key={'id'}
+                    ></SmartSelect>
+                </div>
             </div>
             <div className="rounded-md border">
                 <Table>

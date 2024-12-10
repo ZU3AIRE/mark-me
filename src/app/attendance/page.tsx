@@ -21,6 +21,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import {
+    Column,
     ColumnDef,
     ColumnFiltersState,
     SortingState,
@@ -43,6 +44,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import SmartSelect from "@/components/re-useables/SmartSelect/page"
+import { Value } from "@radix-ui/react-select"
 
 const data: Payment[] = [
     {
@@ -257,32 +260,29 @@ export default function MarkAttendance() {
                         }
                         className="max-w-sm"
                     />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="ml-auto">
-                                Columns <ChevronDown />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            {table
-                                .getAllColumns()
-                                .filter((column) => column.getCanHide())
-                                .map((column) => {
-                                    return (
-                                        <DropdownMenuCheckboxItem
-                                            key={column.id}
-                                            className="capitalize"
-                                            checked={column.getIsVisible()}
-                                            onCheckedChange={(value) =>
-                                                column.toggleVisibility(!!value)
-                                            }
-                                        >
-                                            {column.id}
-                                        </DropdownMenuCheckboxItem>
-                                    )
-                                })}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="ml-auto">
+                        <SmartSelect
+                            items={
+                                table
+                                    .getAllColumns()
+                                    .filter((column) => column.getCanHide())
+                                    .map((column: Column<Payment>) => {
+                                        return {
+                                            key: column.id,
+                                            label: column.id,
+                                            isChecked: column.getIsVisible()
+                                        }
+                                    })}
+                            onCheckedChange={(item, value) =>
+                                table
+                                    .getAllColumns()
+                                    .filter((column) => column.getCanHide()).find(column => column.id == item.key)?.toggleVisibility(!!value)
+                            }
+                            title="Columns"
+                            variant={'outline'}
+                            key={'id'}
+                        ></SmartSelect>
+                    </div>
                 </div>
                 <div className="rounded-md border">
                     <Table>

@@ -5,12 +5,11 @@ import { Calendar } from "@/components/ui/calendar"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {
@@ -33,9 +32,10 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import React from "react"
 
+import SmartSelect from "@/components/re-useables/SmartSelect/page"
 import {
     Table,
     TableBody,
@@ -44,8 +44,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import SmartSelect from "@/components/re-useables/SmartSelect/page"
-import { Value } from "@radix-ui/react-select"
 
 const data: Payment[] = [
     {
@@ -220,9 +218,6 @@ export default function MarkAttendance() {
         <div className="pe-4 ps-8">
             <div className="flex flex-row justify-between w-full  gap-4">
                 <div>
-                    {/* <Button variant="outline">
-                        <FileSpreadsheet /> Export
-                    </Button> */}
                     <h2 className="scroll-m-20 text-2xl font-extrabold italic tracking-tight text-muted-foreground lg:text-md">{dateString}</h2>
                 </div>
                 <div className="flex flex-row gap-4">

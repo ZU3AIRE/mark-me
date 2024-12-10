@@ -98,13 +98,6 @@ export const columns: ColumnDef<Student>[] = [
         accessorKey: "phoneNumber",
         header: () => <div className="text-right">Phone Number</div>,
         cell: ({ row }) => {
-
-            // Format the amount as a dollar amount
-            // const formatted = new Intl.NumberFormat("en-US", {
-            //     style: "currency",
-            //     currency: "USD",
-            // }).format(amount)
-
             return <div className="text-right font-medium">{row.getValue("phoneNumber")}</div>
         },
     },

@@ -1,11 +1,12 @@
 'use client'
+import SmartSelect from "@/components/re-useables/SmartSelect/page"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { Column, ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import React from "react"
 
 const data: Student[] = [
@@ -97,13 +98,6 @@ export const columns: ColumnDef<Student>[] = [
         accessorKey: "phoneNumber",
         header: () => <div className="text-right">Phone Number</div>,
         cell: ({ row }) => {
-
-            // Format the amount as a dollar amount
-            // const formatted = new Intl.NumberFormat("en-US", {
-            //     style: "currency",
-            //     currency: "USD",
-            // }).format(amount)
-
             return <div className="text-right font-medium">{row.getValue("phoneNumber")}</div>
         },
     },
@@ -111,7 +105,7 @@ export const columns: ColumnDef<Student>[] = [
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
+            const student = row.original
 
             return (
                 <DropdownMenu>
@@ -124,7 +118,7 @@ export const columns: ColumnDef<Student>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => navigator.clipboard.writeText(student.id)}
                         >
                             Copy Student ID
                         </DropdownMenuItem>
@@ -180,32 +174,30 @@ export default function Students() {
                     }
                     className="max-w-sm"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="ml-auto">
+                    <SmartSelect
+                        items={
+                            table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column: Column<Student>) => {
+                                    return {
+                                        key: column.id,
+                                        label: column.id,
+                                        isChecked: column.getIsVisible()
+                                    }
+                                })}
+                        onCheckedChange={(item, checked) =>
+                            table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide()).find((column) => column.id === item.key)?.toggleVisibility(!!checked)
+                        }
+                        title="Columns"
+                        variant={'outline'}
+                        key={'id'}
+                    ></SmartSelect>
+
+                </div>
             </div>
             <div className="rounded-md border">
                 <Table>

@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Column, ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import React, { FormEvent } from "react"
+import { toast } from "sonner"
 
 const initialData = [
     { id: 'm5gr84i9', title: 'Data Structures & Algorithms', teacher: 'John Doe', courseCode: 'DI-325' },
@@ -161,8 +162,10 @@ export default function Courses() {
         event.preventDefault()
         const formData = new FormData(event.currentTarget)
         const data = Object.fromEntries(formData.entries()) as unknown as any;
-        setCourses([...courses, new Course(data) ])
+        const newCourse = new Course(data);
+        setCourses([...courses,  newCourse])
         setOpen(false)
+        toast.success(`${newCourse.courseCode}: ${newCourse.title} is added successfully`);
     }
 
     return (

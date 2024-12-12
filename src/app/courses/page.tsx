@@ -1,52 +1,36 @@
 'use client'
+import SmartSelect from "@/components/re-useables/SmartSelect/page"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Column, ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-import React from "react"
-import SmartSelect, { SmartSelectItem } from "@/components/re-useables/SmartSelect/page"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import React, { FormEvent } from "react"
 
-const data: Course[] = [
-    {
-        id: "m5gr84i9",
-        title: "Data Structures & Algorithms",
-        teacher: "John Doe",
-        courseCode: "DI-325",
-    },
-    {
-        id: "3u1reuv4",
-        title: "Programming Fundamentals",
-        teacher: "Jane Doe",
-        courseCode: "CC-123",
-    },
-    {
-        id: "derv1ws0",
-        title: "Web Development",
-        teacher: "Orion Pax",
-        courseCode: "WD-456",
-    },
-    {
-        id: "5kma53ae",
-        title: "Machine Learning",
-        teacher: "Jeason",
-        courseCode: "ML-789",
-    },
-    {
-        id: "bhqecj4p",
-        title: "Software Engineering",
-        teacher: " Ciliona",
-        courseCode: "SE-101",
-    },
-]
+const initialData = [
+    { id: 'm5gr84i9', title: 'Data Structures & Algorithms', teacher: 'John Doe', courseCode: 'DI-325' },
+    { id: '3u1reuv4', title: 'Programming Fundamentals', teacher: 'Jane Doe', courseCode: 'CC-123' },
+    { id: 'derv1ws0', title: 'Web Development', teacher: 'Orion Pax', courseCode: 'WD-456' },
+    { id: '5kma53ae', title: 'Machine Learning', teacher: 'Jeason', courseCode: 'ML-789' },
+    { id: 'bhqecj4p', title: 'Software Engineering', teacher: 'Ciliona', courseCode: 'SE-101' }
+];
 
-export type Course = {
-    id: string
-    title: string
+class Course {
+    id: any
+    title: any
     teacher: string
-    courseCode: string
+    courseCode: any
+
+    constructor(data: any) {
+        this.id = Math.random().toString(36).substr(2, 9);
+        this.title = data.title;
+        this.teacher = 'Zubair';
+        this.courseCode = data.courseCode;
+    }
 }
 
 export const columns: ColumnDef<Course>[] = [
@@ -116,7 +100,7 @@ export const columns: ColumnDef<Course>[] = [
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
+            const course = row.original
 
             return (
                 <DropdownMenu>
@@ -129,7 +113,7 @@ export const columns: ColumnDef<Course>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => navigator.clipboard.writeText(course.courseCode!)}
                         >
                             Copy Course ID
                         </DropdownMenuItem>
@@ -151,9 +135,11 @@ export default function Courses() {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+    const [courses, setCourses] = React.useState<Course[]>(initialData)
+    const [open, setOpen] = React.useState(false);
 
     const table = useReactTable({
-        data,
+        data: courses,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -170,11 +156,52 @@ export default function Courses() {
             rowSelection,
         },
     })
+
+    async function handleAddCourse(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        const formData = new FormData(event.currentTarget)
+        const data = Object.fromEntries(formData.entries()) as unknown as any;
+        setCourses([...courses, new Course(data) ])
+        setOpen(false)
+    }
+
     return (
         <div className="pe-4 ps-8">
             <div className="flex items-center justify-between py-4">
                 <h1 className="text-2xl font-semibold">Courses</h1>
-                <Button variant="outline">Add Course</Button>
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogTrigger asChild>
+                        <Button variant="outline">Add Course</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[525px]">
+                        <DialogHeader>
+                            <DialogTitle>Add Course</DialogTitle>
+                            <DialogDescription>
+                                This dialog box to add course.
+                            </DialogDescription>
+                        </DialogHeader>
+                        <form onSubmit={handleAddCourse}>
+                            <div className="grid gap-4 py-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="title" className="text-right">
+                                        Course Title
+                                    </Label>
+                                    <Input id="title" name="title" className="col-span-3" />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="courseCode" className="text-right">
+                                        Course Code
+                                    </Label>
+                                    <Input id="courseCode" name="courseCode" className="col-span-3" />
+                                </div>
+                            </div>
+                            <DialogFooter>
+                                <Button type="submit" >Save</Button>
+                            </DialogFooter>
+                        </form>
+                    </DialogContent>
+                </Dialog>
+
             </div>
             <div className="flex items-center py-4">
                 <Input

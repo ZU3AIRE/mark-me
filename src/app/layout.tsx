@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { Toaster } from "@/components/ui/sonner"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -63,6 +64,7 @@ export default function RootLayout({
               <SignIn routing="hash"></SignIn>
             </div>
           </SignedOut>
+          <Toaster position="top-right" richColors />
         </body>
       </html>
     </ClerkProvider>

@@ -1,65 +1,50 @@
 'use client'
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { IStudent } from "../model/student"
+import { RegisterStudent } from "./add-student"
+import { useRouter } from "next/navigation"
 
-const data: Student[] = [
-    {
-        id: "m5gr84i9",
-        name: "Ahmed",
-        phoneNumber: "(+234) 08012345678",
-        email: "ken99@yahoo.com",
-    },
-    {
-        id: "3u1reuv4",
-        name: "Abe",
-        phoneNumber: "(+234) 08012345678",
-        email: "Abe45@gmail.com",
-    },
-    {
-        id: "derv1ws0",
-        name: "Monserrat",
-        phoneNumber: "(+92) 08012345678",
-        email: "Monserrat44@gmail.com",
-    },
-    {
-        id: "5kma53ae",
-        name: "Silas",
-        phoneNumber: "(+234) 08012345678",
-        email: "Silas22@gmail.com",
-    },
-    {
-        id: "bhqecj4p",
-        name: "Carmella",
-        phoneNumber: "(+234) 08012345678",
-        email: "carmella@hotmail.com",
-    },
-]
+// var rand = () => (Math.floor(Math.random() * 1000));
+// console.log(rand());
+// console.log(rand());
 
-var data1 = {
-    "id": "st",
-    "name": "Ahmed",
-    "phoneNumber": "(+234) 08012345678",
-    "email": "sadsad"
-}
-data.push(data1);
+// const data: IStudent[] = [
+//     {
+//         id: rand(),
+//         name: "Naeem",
+//         phoneNumber: "+92 3456789021",
+//         email: "sadads@fasf.com",
+//         universityRollNo: "070896",
+//         collegeRollNo: "534",
+//         session: "2021-2025",
+//         currentSemester: "8th",
+//         attendance: "90%",
+//     },
+//     {
+//         id: rand(),
+//         name: "Naeem",
+//         phoneNumber: "+92 3456789021",
+//         email: "bhjbhjb@fhgfhg",
+//         universityRollNo: "076788",
+//         collegeRollNo: "543",
+//         session: "2021-2025",
+//         currentSemester: "8th",
+//         attendance: "90%",
+//     },
+// ]
 
 
-export type Student = {
-    id: string
-    name: string
-    phoneNumber: string
-    email: string
-}
+// const data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
 
-export const columns: ColumnDef<Student>[] = [
+export const columns: ColumnDef<IStudent>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -83,11 +68,86 @@ export const columns: ColumnDef<Student>[] = [
         enableHiding: false,
     },
     {
+        accessorKey: "collegeRollNo",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    College Roll No
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="ml-7 lowercase">{row.getValue("collegeRollNo")}</div>,
+    },
+    {
+        accessorKey: "universityRollNo",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    University Roll No
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="ml-7 lowercase">{row.getValue("universityRollNo")}</div>,
+    },
+    {
         accessorKey: "name",
         header: "Name",
         cell: ({ row }) => (
             <div className="capitalize">{row.getValue("name")}</div>
         ),
+    },
+    {
+        accessorKey: "session",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Session
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="ml-4 lowercase">{row.getValue("session")}</div>,
+    },
+    {
+        accessorKey: "currentSemester",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Current Semester
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="ml-11 lowercase">{row.getValue("currentSemester")}</div>,
+    },
+    {
+        accessorKey: "attendance",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Attendence
+                    <ArrowUpDown />
+                </Button>
+            )
+        },
+        cell: ({ row }) => <div className="ml-11 lowercase">{row.getValue("attendance")}</div>,
     },
     {
         accessorKey: "email",
@@ -106,23 +166,17 @@ export const columns: ColumnDef<Student>[] = [
     },
     {
         accessorKey: "phoneNumber",
-        header: () => <div className="text-right">Phone Number</div>,
+        header: "Phone Number",
         cell: ({ row }) => {
 
-            // Format the amount as a dollar amount
-            // const formatted = new Intl.NumberFormat("en-US", {
-            //     style: "currency",
-            //     currency: "USD",
-            // }).format(amount)
-
-            return <div className="text-right font-medium">{row.getValue("phoneNumber")}</div>
+            return <div>{row.getValue("phoneNumber")}</div>
         },
     },
     {
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
+            const student = row.original
 
             return (
                 <DropdownMenu>
@@ -135,7 +189,7 @@ export const columns: ColumnDef<Student>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => navigator.clipboard.writeText(student.id.toString())}
                         >
                             Copy Student ID
                         </DropdownMenuItem>
@@ -150,6 +204,12 @@ export const columns: ColumnDef<Student>[] = [
 ]
 
 export default function Students() {
+    const [data, setData] = useState<IStudent[]>([]);
+
+    useEffect(() => {
+        const students = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
+        setData(students);
+    }, []);
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -176,57 +236,30 @@ export default function Students() {
             rowSelection,
         },
     })
+
+    const router = useRouter();
+
+    const handleCloseDialog = () => {
+        const students = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
+        setData(students);
+        setOpen(false);
+        // router.refresh();
+    }
+    const [open, setOpen] = React.useState(false);
     return (
         <div className="pe-4 ps-8">
             <div className="flex items-center justify-between py-4">
                 <h1 className="text-2xl font-semibold">Students</h1>
-                {/* <Button variant="outline">Add student</Button> */}
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="outline">Add Student</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[600px]">
+                <Button onClick={() => setOpen(true)} variant="outline">Add student</Button>
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-screen">
                         <DialogHeader>
                             <DialogTitle>Add Student</DialogTitle>
                             <DialogDescription>
                                 Add student. Click save when you're done.
                             </DialogDescription>
                         </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="name" className="text-right">
-                                    Name
-                                </Label>
-                                <Input
-                                    id="name"
-                                    defaultValue="Mousa Naeem"
-                                    className="col-span-3"
-                                />
-                            </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="email" className="text-right">
-                                    Email
-                                </Label>
-                                <Input
-                                    id="email"
-                                    defaultValue="mousa@gmail.com"
-                                    className="col-span-3"
-                                />
-                            </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="phoneNumber" className="text-right">
-                                    Mobile Number
-                                </Label>
-                                <Input
-                                    id="number"
-                                    defaultValue="+92 3456789021"
-                                    className="col-span-3"
-                                />
-                            </div>
-                        </div>
-                        <DialogFooter>
-                            <Button type="submit">Save</Button>
-                        </DialogFooter>
+                        <RegisterStudent onSave={handleCloseDialog} />
                     </DialogContent>
                 </Dialog>
             </div>

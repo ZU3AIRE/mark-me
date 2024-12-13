@@ -12,38 +12,6 @@ import { IStudent } from "../model/student"
 import { RegisterStudent } from "./add-student"
 import { useRouter } from "next/navigation"
 
-// var rand = () => (Math.floor(Math.random() * 1000));
-// console.log(rand());
-// console.log(rand());
-
-// const data: IStudent[] = [
-//     {
-//         id: rand(),
-//         name: "Naeem",
-//         phoneNumber: "+92 3456789021",
-//         email: "sadads@fasf.com",
-//         universityRollNo: "070896",
-//         collegeRollNo: "534",
-//         session: "2021-2025",
-//         currentSemester: "8th",
-//         attendance: "90%",
-//     },
-//     {
-//         id: rand(),
-//         name: "Naeem",
-//         phoneNumber: "+92 3456789021",
-//         email: "bhjbhjb@fhgfhg",
-//         universityRollNo: "076788",
-//         collegeRollNo: "543",
-//         session: "2021-2025",
-//         currentSemester: "8th",
-//         attendance: "90%",
-//     },
-// ]
-
-
-// const data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
-
 export const columns: ColumnDef<IStudent>[] = [
     {
         id: "select",

@@ -1,4 +1,5 @@
 'use client'
+import SmartSelect from "@/components/re-useables/SmartSelect/page"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -136,7 +137,6 @@ export const columns: ColumnDef<IStudent>[] = [
         accessorKey: "phoneNumber",
         header: "Phone Number",
         cell: ({ row }) => {
-
             return <div>{row.getValue("phoneNumber")}</div>
         },
     },
@@ -240,32 +240,30 @@ export default function Students() {
                     }
                     className="max-w-sm"
                 />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="ml-auto">
+                    <SmartSelect
+                        items={
+                            table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column: Column<Student>) => {
+                                    return {
+                                        key: column.id,
+                                        label: column.id,
+                                        isChecked: column.getIsVisible()
+                                    }
+                                })}
+                        onCheckedChange={(item, checked) =>
+                            table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide()).find((column) => column.id === item.key)?.toggleVisibility(!!checked)
+                        }
+                        title="Columns"
+                        variant={'outline'}
+                        key={'id'}
+                    ></SmartSelect>
+
+                </div>
             </div>
             <div className="rounded-md border">
                 <Table>

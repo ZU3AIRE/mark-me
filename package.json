@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.5.1",
+    "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.1",
@@ -30,6 +31,8 @@
     "react": "19.0.0-rc-66855b96-20241106",
     "react-day-picker": "^8.10.1",
     "react-dom": "19.0.0-rc-66855b96-20241106",
+    "react-hook-form": "^7.54.0",
+    "zod": "^3.24.1"
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",

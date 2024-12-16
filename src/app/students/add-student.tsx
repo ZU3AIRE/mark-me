@@ -54,7 +54,6 @@ const registerStudent = (student: any) => {
         student.phoneNumber,
         student.currentSemester,
         student.attendance);
-    debugger;
     data.push(newStudent);
     window.localStorage.setItem('students', JSON.stringify(data));
 }
@@ -75,7 +74,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
         },
     })
 
-    async function onSubmit(values: any) {
+    function onSubmit(values: any) {
         console.log(values);
         registerStudent(values);
         onSave();

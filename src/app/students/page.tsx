@@ -6,12 +6,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
+import { Column, ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 import React, { useEffect, useState } from "react"
 import { IStudent } from "../model/student"
 import { RegisterStudent } from "./add-student"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export const columns: ColumnDef<IStudent>[] = [
     {
@@ -205,13 +206,12 @@ export default function Students() {
         },
     })
 
-    const router = useRouter();
-
     const handleCloseDialog = () => {
         const students = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
         setData(students);
         setOpen(false);
-        // router.refresh();
+        var last = students[students.length - 1];
+        toast.success(`${last.name} added successfully`);
     }
     const [open, setOpen] = React.useState(false);
     return (
@@ -246,7 +246,7 @@ export default function Students() {
                             table
                                 .getAllColumns()
                                 .filter((column) => column.getCanHide())
-                                .map((column: Column<Student>) => {
+                                .map((column: Column<IStudent>) => {
                                     return {
                                         key: column.id,
                                         label: column.id,

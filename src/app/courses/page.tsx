@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Column, ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import React from "react"
 import React, { FormEvent } from "react"
 import { toast } from "sonner"
 

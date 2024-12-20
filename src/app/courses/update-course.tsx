@@ -1,55 +1,53 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ICourse, Course } from "../model/course";
+import { ICourse } from "../model/course";
+import { formSchema } from "./add-course";
 
-export const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Course title must be at least 4 characters long.",
-  }),
-  courseCode: z.string().min(4, {
-    message: "Course code must be at least 3 characters long.",
-  }),
-  teacher: z.string().min(4, {
-    message: "A valid professor name must be defined.",
-  }),
-});
-
-export const defaultValues = {
-  title: "",
-  teacher: "",
-  courseCode: "",
-}
-
-
-const registerCourse = (course: any) => {
+const updateCourse = (course: any, courseCode: string) => {
   var data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
-  const newCourse = new Course(course.title, course.courseCode, course.teacher);
-  data.push(newCourse);
-  window.localStorage.setItem("courses", JSON.stringify(data));
+  var fountCrs = data.find((crs) => crs.courseCode === courseCode);
+  var fountCrsIndex = data.findIndex((crs) => crs.courseCode === courseCode);
+
+  if (fountCrs) {
+    fountCrs.title = course.title;
+    fountCrs.teacher = course.teacher;
+  }
+  if (fountCrsIndex !== -1 && fountCrs) {
+    data[fountCrsIndex] = fountCrs;
+    window.localStorage.setItem("courses", JSON.stringify(data));
+  }
 };
 
-export function RegisterCourse({ onSave }: { onSave: () => void }) {
+export function UpdateCourse({
+  courseCode,
+  onSave,
+}: {
+  courseCode: string;
+  onSave: () => void;
+}) {
+  var data: ICourse[] =
+    JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
+  var crs = data.find((crs) => crs.courseCode === courseCode);
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues,
+    defaultValues: crs,
   });
 
   function onSubmit(values: any) {
-    registerCourse(values);
+    updateCourse(values, courseCode);
     onSave();
   }
 

@@ -165,10 +165,8 @@ export default function Students() {
             enableHiding: false,
             cell: ({ row }) => {
                 const student = row.original
-                const [open, setOpen] = React.useState(false);
-    
-                const handleCloseDialog = () => {      
-                    updateStudent();         
+                const handleCloseDialog = () => {
+                    updateStudent();
                     setOpen(false);
                     toast.success(`${student.name} updated successfully!`);
                 }
@@ -199,7 +197,7 @@ export default function Students() {
                                 <DialogHeader>
                                     <DialogTitle>Update Student</DialogTitle>
                                     <DialogDescription>
-                                        Update student. Click submit when you're done.
+                                        Update student. Click submit when you&apos;re done.
                                     </DialogDescription>
                                 </DialogHeader>
                                 <UpdateStudent studentId={student.id} onSave={handleCloseDialog} />
@@ -207,7 +205,7 @@ export default function Students() {
                         </Dialog>
                     </>
                 )
-    
+
             },
         },
     ]
@@ -235,7 +233,7 @@ export default function Students() {
         const students = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
         setData(students);
         setOpen(false);
-        var last = students[students.length - 1];
+        const last = students[students.length - 1];
         toast.success(`${last.name} added successfully!`);
     }
     const [open, setOpen] = React.useState(false);
@@ -249,7 +247,7 @@ export default function Students() {
                         <DialogHeader>
                             <DialogTitle>Add Student</DialogTitle>
                             <DialogDescription>
-                                Add student. Click submit when you're done.
+                                Add student. Click submit when you&apos;re done.
                             </DialogDescription>
                         </DialogHeader>
                         <RegisterStudent onSave={handleCloseDialog} />

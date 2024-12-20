@@ -144,7 +144,6 @@ export default function Courses() {
       enableHiding: false,
       cell: ({ row }) => {
         const course = row.original;
-        const [open, setOpen] = React.useState(false);
 
         const handleCloseDialog = () => {
           updateCourses();
@@ -185,7 +184,7 @@ export default function Courses() {
                 <DialogHeader>
                   <DialogTitle>Update Course</DialogTitle>
                   <DialogDescription>
-                    Update course. Click submit when you're done.
+                    Update course. Click submit when you&apos;re done.
                   </DialogDescription>
                 </DialogHeader>
                 <UpdateCourse
@@ -224,7 +223,7 @@ export default function Courses() {
       JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
     setData(courses);
     setOpen(false);
-    var newCourse = courses[courses.length - 1];
+    const newCourse = courses[courses.length - 1];
     toast.success(
       `${newCourse.courseCode}: ${newCourse.title} is added successfully`
     );
@@ -242,7 +241,7 @@ export default function Courses() {
             <DialogHeader>
               <DialogTitle>Add Course</DialogTitle>
               <DialogDescription>
-                Add course. Click submit when you're done.
+                Add course. Click submit when you&apos;re done.
               </DialogDescription>
             </DialogHeader>
             <RegisterCourse onSave={handleCloseDialog} />

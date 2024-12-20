@@ -15,11 +15,11 @@ import { Input } from "@/components/ui/input";
 import { ICourse } from "../model/course";
 import { formSchema } from "./add-course";
 
-const updateCourse = (course: any, courseId: number) => {
-  var data: ICourse[] =
+const updateCourse = (course: ICourse, courseId: number) => {
+  const data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
-  var foundCrs = data.find((crs) => crs.id === courseId);
-  var foundCrsIndex = data.findIndex((crs) => crs.id === courseId);
+  const foundCrs = data.find((crs) => crs.id === courseId);
+  const foundCrsIndex = data.findIndex((crs) => crs.id === courseId);
 
   if (foundCrs) {
     foundCrs.courseCode = course.courseCode;
@@ -39,15 +39,15 @@ export function UpdateCourse({
   courseId: number;
   onSave: () => void;
 }) {
-  var data: ICourse[] =
+  const data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
-  var crs = data.find((crs) => crs.id === courseId);
+  const crs = data.find((crs) => crs.id === courseId);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: crs,
   });
 
-  function onSubmit(values: any) {
+  function onSubmit(values: ICourse) {
     updateCourse(values, courseId);
     onSave();
   }

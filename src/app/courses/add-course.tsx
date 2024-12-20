@@ -33,8 +33,8 @@ export const defaultValues = {
   courseCode: "",
 }
 
-const registerCourse = (course: any) => {
-  var data: ICourse[] =
+const registerCourse = (course: { title: string; teacher: string; courseCode: string; }) => {
+  const data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
   const newCourse = new Course(course.title, course.courseCode, course.teacher);
   data.push(newCourse);
@@ -47,7 +47,7 @@ export function RegisterCourse({ onSave }: { onSave: () => void }) {
     defaultValues,
   });
 
-  function onSubmit(values: any) {
+  function onSubmit(values: { title: string; teacher: string; courseCode: string; }) {
     registerCourse(values);
     onSave();
   }

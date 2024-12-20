@@ -75,7 +75,6 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
     })
 
     function onSubmit(values: any) {
-        console.log(values);
         registerStudent(values);
         onSave();
     }

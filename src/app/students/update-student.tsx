@@ -45,18 +45,8 @@ const formSchema = z.object({
 
 const updateStudent = (student: any, studentId: number) => {
     var data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
-    debugger;
     var std = data.find((std) => std.id === studentId);
     var stdIndex = data.findIndex((std) => std.id === studentId);
-    // const newStudent = new Students(
-    //     student.name,
-    //     student.email,
-    //     student.collegeRollNo,
-    //     student.universityRollNo,
-    //     student.session,
-    //     student.phoneNumber,
-    //     student.currentSemester,
-    //     student.attendance);
     if (std) {
         std.name = student.name;
         std.email = student.email;
@@ -77,8 +67,6 @@ const updateStudent = (student: any, studentId: number) => {
 export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave: () => void }) {
     var data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
     var student = data.find((student) => student.id === studentId);
-    debugger;
-    console.log(student);
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -94,8 +82,6 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
     })
 
     function onSubmit(values: any) {
-        console.log(values);
-        debugger;
         updateStudent(values, studentId);
         onSave();
     }

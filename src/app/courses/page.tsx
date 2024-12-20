@@ -39,7 +39,14 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal, SquarePen, Trash2 } from "lucide-react";
+import {
+  ArrowUpDown,
+  CircleXIcon,
+  MoreHorizontal,
+  SquarePen,
+  Trash2,
+  TrashIcon
+} from "lucide-react";
 
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -69,6 +76,8 @@ export default function Courses() {
 
   const [data, setData] = useState<ICourse[]>([]);
   const [open, setOpen] = React.useState(false);
+  const [updateDialogOpen, setUpdateDialogOpen] = React.useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const columns: ColumnDef<ICourse>[] = [
     {
       id: "select",
@@ -144,10 +153,23 @@ export default function Courses() {
       enableHiding: false,
       cell: ({ row }) => {
         const course = row.original;
-
+        const deleteCourse = (course: ICourse) => {
+          const courses =
+            JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
+          const updatedCourses = courses.filter(
+            (c: ICourse) => c.id !== course.id
+          );
+          window.localStorage.setItem(
+            "courses",
+            JSON.stringify(updatedCourses)
+          );
+          setData(updatedCourses);
+          setDeleteDialogOpen(false);
+          toast.warning(`${course.title} deleted successfully!`);
+        };
         const handleCloseDialog = () => {
           updateCourses();
-          setOpen(false);
+          setUpdateDialogOpen(false);
           toast.success(`${course.title} updated successfully!`);
         };
         return (
@@ -169,17 +191,19 @@ export default function Courses() {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  onClick={() => setOpen(true)}
+                  onClick={() => setUpdateDialogOpen(true)}
                   className="text-gray-600">
                   <SquarePen /> Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-red-500">
+                <DropdownMenuItem
+                  onClick={() => setDeleteDialogOpen(true)}
+                  className="text-red-500">
                   <Trash2 /> Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             {/* Update Course Data Dialog */}
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen}>
               <DialogContent className="lg:max-w-[40vw] max-h-[65vh] overflow-y-auto p-6 rounded-lg shadow-lg">
                 <DialogHeader>
                   <DialogTitle>Update Course</DialogTitle>
@@ -187,10 +211,36 @@ export default function Courses() {
                     Update course. Click submit when you&apos;re done.
                   </DialogDescription>
                 </DialogHeader>
-                <UpdateCourse
-                  courseId={course.id}
-                  onSave={handleCloseDialog}
-                />
+                <UpdateCourse courseId={course.id} onSave={handleCloseDialog} />
+              </DialogContent>
+            </Dialog>
+            {/* Delete Confirm Dialog */}
+            <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+              <DialogContent className="lg:max-w-[30vw] max-h-[65vh] overflow-y-auto p-6 rounded-lg shadow-lg">
+                <DialogHeader>
+                  <DialogTitle>Are you sure you want to delete</DialogTitle>
+                  <DialogDescription>
+                    <span className="mt-3 mb-3 border-l-2 pl-3 italic">
+                      <span className="font-semibold">
+                        {course.courseCode}: {course.title}
+                      </span>
+                      {course.teacher ? ` taught by ${course.teacher}` : ""}
+                      {`?`}
+                    </span>
+                  </DialogDescription>
+                </DialogHeader>
+                <footer className="text-end h-8">
+                  <Button onClick={() => setDeleteDialogOpen(false)}>
+                    <CircleXIcon />
+                    Cancel
+                  </Button>{" "}
+                  <Button
+                    onClick={() => deleteCourse(course)}
+                    variant="destructive">
+                    <TrashIcon />
+                    Delete
+                  </Button>
+                </footer>
               </DialogContent>
             </Dialog>
           </>

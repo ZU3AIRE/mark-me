@@ -3,51 +3,52 @@ import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ICourse } from "../model/course";
 import { formSchema } from "./add-course";
 
-const updateCourse = (course: any, courseCode: string) => {
+const updateCourse = (course: any, courseId: number) => {
   var data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
-  var fountCrs = data.find((crs) => crs.courseCode === courseCode);
-  var fountCrsIndex = data.findIndex((crs) => crs.courseCode === courseCode);
+  var foundCrs = data.find((crs) => crs.id === courseId);
+  var foundCrsIndex = data.findIndex((crs) => crs.id === courseId);
 
-  if (fountCrs) {
-    fountCrs.title = course.title;
-    fountCrs.teacher = course.teacher;
+  if (foundCrs) {
+    foundCrs.courseCode = course.courseCode;
+    foundCrs.title = course.title;
+    foundCrs.teacher = course.teacher;
   }
-  if (fountCrsIndex !== -1 && fountCrs) {
-    data[fountCrsIndex] = fountCrs;
+  if (foundCrsIndex !== -1 && foundCrs) {
+    data[foundCrsIndex] = foundCrs;
     window.localStorage.setItem("courses", JSON.stringify(data));
   }
 };
 
 export function UpdateCourse({
-  courseCode,
+  courseId,
   onSave,
 }: {
-  courseCode: string;
+  courseId: number;
   onSave: () => void;
 }) {
   var data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
-  var crs = data.find((crs) => crs.courseCode === courseCode);
+  var crs = data.find((crs) => crs.id === courseId);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: crs,
   });
 
   function onSubmit(values: any) {
-    updateCourse(values, courseCode);
+    updateCourse(values, courseId);
     onSave();
   }
 

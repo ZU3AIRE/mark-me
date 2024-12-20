@@ -189,7 +189,7 @@ export default function Courses() {
                   </DialogDescription>
                 </DialogHeader>
                 <UpdateCourse
-                  courseCode={course.courseCode}
+                  courseId={course.id}
                   onSave={handleCloseDialog}
                 />
               </DialogContent>

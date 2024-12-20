@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,42 +12,43 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ICourse, Course } from "../model/course";
+import { ICourse } from "../model/course";
+import { formSchema } from "./add-course";
 
-export const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Course title must be at least 4 characters long.",
-  }),
-  courseCode: z.string().min(4, {
-    message: "Course code must be at least 3 characters long.",
-  }),
-  teacher: z.string().min(4, {
-    message: "A valid professor name must be defined.",
-  }),
-});
-
-export const defaultValues = {
-  title: "",
-  teacher: "",
-  courseCode: "",
-}
-
-const registerCourse = (course: any) => {
+const updateCourse = (course: any, courseId: number) => {
   var data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
-  const newCourse = new Course(course.title, course.courseCode, course.teacher);
-  data.push(newCourse);
-  window.localStorage.setItem("courses", JSON.stringify(data));
+  var foundCrs = data.find((crs) => crs.id === courseId);
+  var foundCrsIndex = data.findIndex((crs) => crs.id === courseId);
+
+  if (foundCrs) {
+    foundCrs.courseCode = course.courseCode;
+    foundCrs.title = course.title;
+    foundCrs.teacher = course.teacher;
+  }
+  if (foundCrsIndex !== -1 && foundCrs) {
+    data[foundCrsIndex] = foundCrs;
+    window.localStorage.setItem("courses", JSON.stringify(data));
+  }
 };
 
-export function RegisterCourse({ onSave }: { onSave: () => void }) {
+export function UpdateCourse({
+  courseId,
+  onSave,
+}: {
+  courseId: number;
+  onSave: () => void;
+}) {
+  var data: ICourse[] =
+    JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
+  var crs = data.find((crs) => crs.id === courseId);
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues,
+    defaultValues: crs,
   });
 
   function onSubmit(values: any) {
-    registerCourse(values);
+    updateCourse(values, courseId);
     onSave();
   }
 

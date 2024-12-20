@@ -23,12 +23,12 @@ const formSchema = z.object({
     email: z.string().min(1, {
         message: "You must give an email address",
     }).email("This is not a valid email address"),
-    collegeRollNo: z.string().min(1, {
-        message: "You must give a college roll number",
-    }),
-    universityRollNo: z.string().min(4, {
-        message: "You must give a university roll number",
-    }),
+    collegeRollNo: z
+        .number()
+        .positive({ message: "The college roll no can't be negative or zero." }),
+    universityRollNo: z
+        .number()
+        .positive({ message: "The university roll can't be negative or zero." }),
     session: z.string().min(4, {
         message: "You must give a session",
     }),
@@ -65,8 +65,8 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
         defaultValues: {
             name: "",
             email: "",
-            collegeRollNo: "",
-            universityRollNo: "",
+            collegeRollNo: 0,
+            universityRollNo: 0,
             session: "",
             phoneNumber: "",
             currentSemester: "",
@@ -124,7 +124,12 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                         <FormItem>
                             <FormLabel>College Roll No</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="502" {...field} />
+                                <Input type="number" placeholder="502" {...field}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        field.onChange(value ? parseInt(value) : 0);
+                                    }}
+                                />
                             </FormControl>
                             <FormDescription>
                                 Give student's College Roll No.
@@ -141,7 +146,12 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                         <FormItem>
                             <FormLabel>University Roll No</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="070986" {...field} />
+                                <Input type="number" placeholder="070986" {...field}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        field.onChange(value ? parseInt(value) : 0);
+                                    }}
+                                />
                             </FormControl>
                             <FormDescription>
                                 Give student's University Roll No.

@@ -2,8 +2,8 @@ export interface IStudent {
     id: number;
     name: string;
     email: string;
-    collegeRollNo: string;
-    universityRollNo: string;
+    collegeRollNo: number;
+    universityRollNo: number;
     session: string;
     phoneNumber: string;
     currentSemester: string;
@@ -14,14 +14,14 @@ export class Students implements IStudent {
     id: number = 0;
     name: string;
     email: string;
-    collegeRollNo: string;
-    universityRollNo: string;
+    collegeRollNo: number;
+    universityRollNo: number;
     session: string;
     phoneNumber: string;
     currentSemester: string;
     attendance: string;
 
-    constructor(name: string , email: string, collegeRollNo: string, universityRollNo: string, session: string, phoneNumber: string, currentSemester: string, attendance: string) {
+    constructor(name: string , email: string, collegeRollNo: number, universityRollNo: number, session: string, phoneNumber: string, currentSemester: string, attendance: string) {
         this.id = Math.floor(Math.random() * 1000);
         this.name = name;
         this.email = email;

@@ -40,6 +40,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, SquarePen, Trash2 } from "lucide-react";
+
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ICourse } from "../model/course";

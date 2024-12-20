@@ -33,7 +33,6 @@ export const defaultValues = {
   courseCode: "",
 }
 
-
 const registerCourse = (course: any) => {
   var data: ICourse[] =
     JSON.parse(window.localStorage.getItem("courses") || "[]") || [];

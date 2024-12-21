@@ -20,7 +20,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
-import Image from "next/image"
+import Image from "next/image";
+import logo from "../../public/logo.png";
+
 
 const data = {
   navMain: [
@@ -82,7 +84,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar> ) 
             <SidebarMenuButton size="lg" asChild>
               <Link href={"/"}>
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg  text-sidebar-primary-foreground">
-                  <Image className="size-8" src={"logo.png"} alt={"logo of  mark-me"}></Image>
+                  <Image className="size-8" src={logo} alt={"logo of mark-me"} width={80} height={80}></Image>
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate text-md font-semibold">Mark Me</span>

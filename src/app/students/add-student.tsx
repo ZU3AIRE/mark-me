@@ -43,8 +43,8 @@ const formSchema = z.object({
     }),
 })
 
-const registerStudent = (student: any) => {
-    var data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
+const registerStudent = (student: { name: string; email: string; collegeRollNo: number; universityRollNo: number; session: string; phoneNumber: string; currentSemester: string; attendance: string; }) => {
+    const data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
     const newStudent = new Students(
         student.name,
         student.email,
@@ -74,7 +74,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
         },
     })
 
-    function onSubmit(values: any) {
+    function onSubmit(values: { name: string; email: string; collegeRollNo: number; universityRollNo: number; session: string; phoneNumber: string; currentSemester: string; attendance: string; }) {
         registerStudent(values);
         onSave();
     }
@@ -92,7 +92,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 <Input type="name" placeholder="Mousa" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Full Name.
+                                Give student&apos;s Full Name.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -109,7 +109,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 <Input type="email" placeholder="asad@gmail.com..." {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's email address.
+                                Give student&apos;s email address.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -131,7 +131,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 />
                             </FormControl>
                             <FormDescription>
-                                Give student's College Roll No.
+                                Give student&apos;s College Roll No.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -153,7 +153,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 />
                             </FormControl>
                             <FormDescription>
-                                Give student's University Roll No.
+                                Give student&apos;s University Roll No.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -170,7 +170,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 <Input type="text" placeholder="2021-2025" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Session.
+                                Give student&apos;s Session.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -187,7 +187,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 <Input type="text" placeholder="0301-1234567" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Phone Number.
+                                Give student&apos;s Phone Number.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -204,7 +204,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 <Input type="text" placeholder="8th" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Current Semester.
+                                Give student&apos;s Current Semester.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -221,7 +221,7 @@ export function RegisterStudent({ onSave }: { onSave: () => void }) {
                                 <Input type="text" placeholder="60%" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Attendance.
+                                Give student&apos;s Attendance.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

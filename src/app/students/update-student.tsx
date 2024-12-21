@@ -43,19 +43,19 @@ const formSchema = z.object({
     }),
 })
 
-const updateStudent = (student: any, studentId: number) => {
-    var data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
-    var std = data.find((std) => std.id === studentId);
-    var stdIndex = data.findIndex((std) => std.id === studentId);
+const updateStudent = (student: { name: string | undefined; email: string | undefined; collegeRollNo: number | undefined; universityRollNo: number | undefined; session: string | undefined; phoneNumber: string | undefined; currentSemester: string | undefined; attendance: string | undefined; }, studentId: number) => {
+    const data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
+    const std = data.find((std) => std.id === studentId);
+    const stdIndex = data.findIndex((std) => std.id === studentId);
     if (std) {
-        std.name = student.name;
-        std.email = student.email;
-        std.collegeRollNo = student.collegeRollNo;
-        std.universityRollNo = student.universityRollNo;
-        std.session = student.session;
-        std.phoneNumber = student.phoneNumber;
-        std.currentSemester = student.currentSemester;
-        std.attendance = student.attendance;
+        std.name = student.name!;
+        std.email = student.email!;
+        std.collegeRollNo = student.collegeRollNo ?? 0;
+        std.universityRollNo = student.universityRollNo ?? 0;
+        std.session = student.session!;
+        std.phoneNumber = student.phoneNumber!;
+        std.currentSemester = student.currentSemester!;
+        std.attendance = student.attendance!;
     }
     if (stdIndex !== -1 && std) {
         data[stdIndex] = std;
@@ -65,8 +65,8 @@ const updateStudent = (student: any, studentId: number) => {
 
 
 export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave: () => void }) {
-    var data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
-    var student = data.find((student) => student.id === studentId);
+    const data: IStudent[] = JSON.parse(window.localStorage.getItem('students') || '[]') || [];
+    const student = data.find((student) => student.id === studentId);
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -81,7 +81,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
         },
     })
 
-    function onSubmit(values: any) {
+    function onSubmit(values: { name: string | undefined; email: string | undefined; collegeRollNo: number | undefined; universityRollNo: number | undefined; session: string | undefined; phoneNumber: string | undefined; currentSemester: string | undefined; attendance: string | undefined; }) {
         updateStudent(values, studentId);
         onSave();
     }
@@ -99,7 +99,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 <Input type="name" placeholder="Mousa" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Full Name.
+                                Give student&apos;s Full Name.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -116,7 +116,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 <Input type="email" placeholder="asad@gmail.com..." {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's email address.
+                                Give student&apos;s email address.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -138,7 +138,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 />
                             </FormControl>
                             <FormDescription>
-                                Give student's College Roll No.
+                                Give student&apos;s College Roll No.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -160,7 +160,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 />
                             </FormControl>
                             <FormDescription>
-                                Give student's University Roll No.
+                                Give student&apos;s University Roll No.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -177,7 +177,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 <Input type="text" placeholder="2021-2025" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Session.
+                                Give student&apos;s Session.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -194,7 +194,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 <Input type="text" placeholder="0301-1234567" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Phone Number.
+                                Give student&apos;s Phone Number.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -211,7 +211,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 <Input type="text" placeholder="8th" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Current Semester.
+                                Give student&apos;s Current Semester.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -228,7 +228,7 @@ export function UpdateStudent({ studentId, onSave }: { studentId: number; onSave
                                 <Input type="text" placeholder="60%" {...field} />
                             </FormControl>
                             <FormDescription>
-                                Give student's Attendance.
+                                Give student&apos;s Attendance.
                             </FormDescription>
                             <FormMessage />
                         </FormItem>

@@ -65,7 +65,6 @@ export default function Courses() {
       JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
     setData(courses);
   };
-
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -77,6 +76,8 @@ export default function Courses() {
 
   const [data, setData] = useState<ICourse[]>([]);
   const [open, setOpen] = React.useState(false);
+  const [updateDialogOpen, setUpdateDialogOpen] = React.useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
   const columns: ColumnDef<ICourse>[] = [
     {
       id: "select",
@@ -152,8 +153,6 @@ export default function Courses() {
       enableHiding: false,
       cell: ({ row }) => {
         const course = row.original;
-        const [updateDialogOpen, setUpdateDialogOpen] = React.useState(false);
-        const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
         const deleteCourse = (course: ICourse) => {
           const courses =
             JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
@@ -209,7 +208,7 @@ export default function Courses() {
                 <DialogHeader>
                   <DialogTitle>Update Course</DialogTitle>
                   <DialogDescription>
-                    Update course. Click submit when you're done.
+                    Update course. Click submit when you&apos;re done.
                   </DialogDescription>
                 </DialogHeader>
                 <UpdateCourse courseId={course.id} onSave={handleCloseDialog} />
@@ -231,12 +230,12 @@ export default function Courses() {
                   </DialogDescription>
                 </DialogHeader>
                 <footer className="text-end h-8">
-                  <Button onClick={(e) => setDeleteDialogOpen(false)}>
+                  <Button onClick={() => setDeleteDialogOpen(false)}>
                     <CircleXIcon />
                     Cancel
                   </Button>{" "}
                   <Button
-                    onClick={(e) => deleteCourse(course)}
+                    onClick={() => deleteCourse(course)}
                     variant="destructive">
                     <TrashIcon />
                     Delete
@@ -274,7 +273,7 @@ export default function Courses() {
       JSON.parse(window.localStorage.getItem("courses") || "[]") || [];
     setData(courses);
     setOpen(false);
-    var newCourse = courses[courses.length - 1];
+    const newCourse = courses[courses.length - 1];
     toast.success(
       `${newCourse.courseCode}: ${newCourse.title} is added successfully`
     );
@@ -292,7 +291,7 @@ export default function Courses() {
             <DialogHeader>
               <DialogTitle>Add Course</DialogTitle>
               <DialogDescription>
-                Add course. Click submit when you're done.
+                Add course. Click submit when you&apos;re done.
               </DialogDescription>
             </DialogHeader>
             <RegisterCourse onSave={handleCloseDialog} />

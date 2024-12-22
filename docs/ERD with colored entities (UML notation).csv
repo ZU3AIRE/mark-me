@@ -1,8 +1,0 @@
-Id,Name,Shape Library,Page ID,Contained By,Group,Status,Text Area 1,Text Area 2,Text Area 3,Text Area 4,Text Area 5,Text Area 6,Text Area 7,Text Area 8,Text Area 9,Text Area 10,Text Area 11,Comments
-1,Document,,,,,Draft,ERD with colored entities (UML notation),,,,,,,,,,,
-2,Page,,,,,,Page 1,,,,,,,,,,,
-3,Entity,Entity Relationship,2,,,,Student,RollNo,UniversityRollNo,Session,,,,,,,,
-4,Entity,Entity Relationship,2,,,,Courses,CourseCode,CourseTitle,,,,,,,,,
-5,Entity,Entity Relationship,2,,,,Teacher,TeacherId,FirstName,LastName,Email,PasswordHash,IsDeleted,AddedBy,UpdatedBy,AddedOn,UpdatedOn,
-6,Entity,Entity Relationship,2,,,,Sessions,SessionId,Session,,,,,,,,,
-7,Entity,Entity Relationship,2,,,,Department,DepartmentId,Name,,,,,,,,,
